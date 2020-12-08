@@ -9,4 +9,10 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-clip: initial;
+  display: flex;
+  justify-content: center;
+}
+
+.ml-1px{
+  margin-left: 1px;
 }

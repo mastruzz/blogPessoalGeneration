@@ -6,6 +6,12 @@ ul.social-network {
 
   padding: 0;
 }
+.bg-footer1{
+  background-color: rgb(17, 83, 182);
+}
+.bg-footer2{
+  background-color: rgb(10, 66, 150);
+}
 
 ul.social-network li {
   display: inline;
