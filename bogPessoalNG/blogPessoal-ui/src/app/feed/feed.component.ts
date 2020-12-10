@@ -1,3 +1,6 @@
+  
+import { environment } from './../../environments/environment.prod';
+import { Router } from '@angular/router';
 import { TemaService } from './../service/tema.service';
 import { PostagemService } from './../service/postagem.service';
 import { Postagem } from './../model/Postagem';
@@ -23,12 +26,16 @@ export class FeedComponent implements OnInit {
   idTema: number
   nomeTema: string
 
+
+
   constructor(
     private postagemService: PostagemService,
-    private temaService: TemaService
+    private temaService: TemaService,
+    private router: Router
   ) { }
 
   ngOnInit(){
+
     window.scroll(0, 0)
 
     this.findAllPostagens()
@@ -47,7 +54,9 @@ export class FeedComponent implements OnInit {
 
     if (this.postagem.titulo == null || this.postagem.texto == null || this.postagem.tema == null) {
       alert('Preencha todos os campos antes de publicar!')
-    } else {
+    } else if (this.postagem.texto.length < 10) {
+      alert('Digite no minimo 10 caracteres no campo texto!')
+    } else{
       this.postagemService.postPostagem(this.postagem).subscribe((resp: Postagem) => {
         this.postagem = resp
         this.postagem = new Postagem()
@@ -70,7 +79,15 @@ export class FeedComponent implements OnInit {
    })
  }
 
- 
+ findByTituloPostagem() {
+   if (this.titulo === ''){
+     this.findAllPostagens()
+   } else {
+     this.postagemService.getByTituloPostagem(this.titulo).subscribe((resp: Postagem[]) => {
+       this.listaPostagens = resp
+     })
+   }
+ }
 
  findByNomeTema() {
    if (this.nomeTema === ''){
@@ -81,14 +98,5 @@ export class FeedComponent implements OnInit {
      })
    }
  }
- findByTituloPostagem() {
-  if (this.titulo === ''){
-    this.findAllPostagens()
-  } else {
-    this.postagemService.getByTituloPostagem(this.titulo).subscribe((resp: Postagem[]) => {
-      this.listaPostagens = resp
-    })
-  }
-}
 
 }
